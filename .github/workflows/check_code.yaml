@@ -22,16 +22,12 @@ jobs:
       - name: Add path for Poetry
         run: echo "$HOME/.poetry/bin" >> $GITHUB_PATH
       - name: Install Dependencies
-        working-directory: ./api
         run: poetry install
       - name: flake8
-        working-directory: ./api
         run: poetry run flake8 src/app --ignore E501
       - name: Check mypy
-        working-directory: ./api
         run: poetry run mypy src/app --ignore-missing-imports --show-column-numbers --check-untyped-defs
       - name: Unit test
-        working-directory: ./api
         run: poetry run pytest src/tests -v --cov=app
         env:
           # ダミー設定

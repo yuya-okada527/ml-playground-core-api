@@ -1,6 +1,5 @@
-name: CD Pipeline for API
+name: Push Image
 
-# CIパイプライン実行完了をトリガーとする。
 on:
   push:
     branches:
