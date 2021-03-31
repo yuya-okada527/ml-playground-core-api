@@ -1,4 +1,4 @@
-# ML Playground API
+# ML Playground Core API
 
 ML Playground App 用のコア API を提供します。
 
@@ -26,3 +26,11 @@ ML Playground App 用のコア API を提供します。
 # ローカル起動
 $ uvicorn app.main:app --reload
 ```
+
+## デプロイフロー
+
+### STG 環境
+
+- 既に release ブランチが存在する場合は削除
+- develop ブランチから release ブランチを作成
+- GKE に反映
