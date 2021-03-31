@@ -26,6 +26,6 @@ jobs:
       - name: Configure docker to use the gcloud cli
         run: gcloud auth configure-docker --quiet
       - name: Build Image
-        run: docker build -t $IMAGE ./api
+        run: docker build -t $IMAGE .
       - name: Push Image
         run: docker push $IMAGE
