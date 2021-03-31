@@ -29,13 +29,8 @@ $ uvicorn app.main:app --reload
 
 ## デプロイフロー
 
-- release ブランチ作
+- main ブランチから release ブランチを作成
+- develop ブランチから release ブランチへ PR 作成
 - STG 検証
-- main ブランチにプッシュ
+- release ブランチから main ブランチにプッシュ
 - 本番反映
-
-### STG 環境
-
-- 既に release ブランチが存在する場合は削除
-- develop ブランチから release ブランチを作成
-- GKE に反映
