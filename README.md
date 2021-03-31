@@ -27,7 +27,7 @@ ML Playground App 用のコア API を提供します。
 $ uvicorn app.main:app --reload
 ```
 
-## デプロイフロー
+## デプロイ手順
 
 - main ブランチから release ブランチを作成
 - develop ブランチから release ブランチへ PR 作成
