@@ -43,3 +43,10 @@ class SimilarMovieResponse(BaseModel):
 class MovieIdResponse(BaseModel):
     """映画IDレスポンス"""
     movie_ids: List[int] = Field(..., description="映画IDリスト")
+
+
+class LikeSimilarMovie(BaseModel):
+    """類似映画いいねモデル"""
+    movie_id: int = Field(..., description="映画ID")
+    model_type: SimilarityModelType = Field(..., description="類似映画判定モデル")
+    like: bool = Field(..., description="いいねをつけた場合True, いいねを外した場合False")

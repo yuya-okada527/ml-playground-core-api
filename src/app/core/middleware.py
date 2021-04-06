@@ -26,6 +26,7 @@ CORS = {
     "expose_headers": []
 }
 
+
 # パフォーマンスログミドルウェア
 class AccessLogMiddleware(BaseHTTPMiddleware):
     """アクセスログ出力ミドルウェア

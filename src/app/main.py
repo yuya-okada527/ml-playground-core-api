@@ -5,6 +5,7 @@ APIの基本機能を定義するモジュール
 from fastapi import FastAPI
 
 from core.middleware import CORS, AccessLogMiddleware
+from entrypoints.v1.movie import feedback_router as v1_feedback
 from entrypoints.v1.movie import operation_router as v1_operation
 from entrypoints.v1.movie import search_router as v1_search
 from entrypoints.v1.movie import similar_router as v1_similar
@@ -20,6 +21,7 @@ app = FastAPI(
 app.include_router(v1_search.router)
 app.include_router(v1_similar.router)
 app.include_router(v1_operation.router)
+app.include_router(v1_feedback.router)
 
 # ミドルウェア定義
 app.add_middleware(**CORS)
