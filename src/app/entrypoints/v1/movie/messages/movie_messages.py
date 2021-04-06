@@ -50,3 +50,8 @@ class LikeSimilarMovie(BaseModel):
     movie_id: int = Field(..., description="映画ID")
     model_type: SimilarityModelType = Field(..., description="類似映画判定モデル")
     like: bool = Field(..., description="いいねをつけた場合True, いいねを外した場合False")
+
+
+class AllSimilarityModelsResponse(BaseModel):
+    """全類似映画判定モデルAPIレスポンス"""
+    model_types: List[SimilarityModelType] = Field(..., description="全類似映画判定モデルリスト")

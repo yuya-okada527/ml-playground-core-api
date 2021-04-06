@@ -3,7 +3,8 @@
 類似映画APIのルーター定義を記述するモジュール
 """
 from domain.enums.similarity_enums import SimilarityModelType
-from entrypoints.v1.movie.messages.movie_messages import SimilarMovieResponse
+from entrypoints.v1.movie.messages.movie_messages import (
+    AllSimilarityModelsResponse, SimilarMovieResponse)
 from fastapi import APIRouter, Depends, Path, Query
 from infra.client.solr.solr_api import AbstractSolrClient, get_solr_client
 from infra.repository.kvs_repository import (AbstractKvsRepository,
@@ -49,3 +50,14 @@ async def search_similar(
         kvs_repository=kvs_repository,
         solr_client=solr_client
     )
+
+
+@router.get(
+    "/model/all",
+    summary="類似映画判定モデル取得API",
+    description="全類似映画判定モデルを取得するAPI",
+    response_model=AllSimilarityModelsResponse,
+    response_description="全類似映画判定モデルリスト"
+)
+async def get_all_similarity_models():
+    return None
