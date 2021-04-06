@@ -20,7 +20,7 @@ router = APIRouter(
     summary="いいね登録API",
     description="ユーザのいいね情報を登録するためのAPI.",
     response_model=LikeSimilarMovie,
-    response_description="登録結果"
+    response_description="いいね登録結果"
 )
 async def like_similar_movie(like: LikeSimilarMovie) -> LikeSimilarMovie:
 
