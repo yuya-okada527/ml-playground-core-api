@@ -4,12 +4,14 @@
 ローカル開発環境起動時は、プロジェクトルート配下のenvディレクトリ内のenvファイルを利用
 本番環境では、環境変数の値を利用する
 """
+from domain.enums.core_enums import LogLevel
 from pydantic import BaseSettings
 
 
 class CoreSettings(BaseSettings):
     # カンマ区切りで設定可能FEドメイン
     fe_domain: str = "http://localhost:3000"
+    api_log_level: LogLevel = LogLevel.INFO
 
 
 class SolrSettings(BaseSettings):
