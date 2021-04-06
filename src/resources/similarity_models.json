@@ -1,0 +1,15 @@
+{
+  "best_model": "tmdb-sim",
+  "models": [
+    {
+      "name": "tmdb-sim",
+      "total_view": 0,
+      "like_count": 0
+    },
+    {
+      "name": "glove-sim",
+      "total_view": 0,
+      "like_count": 0
+    }
+  ]
+}

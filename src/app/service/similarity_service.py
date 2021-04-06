@@ -4,12 +4,16 @@
 """
 
 from domain.enums.similarity_enums import SimilarityModelType
-from entrypoints.v1.movie.messages.movie_messages import SimilarMovieResponse
+from entrypoints.v1.movie.messages.movie_messages import (
+    AllSimilarityModelsResponse, SimilarMovieResponse)
 from infra.client.solr.solr_api import AbstractSolrClient
+from infra.repository.file_repository import AbstractFileRepository
 from infra.repository.kvs_repository import AbstractKvsRepository
 
 from service.logic.similarity_logic import (fetch_similar_movies,
                                             map_similar_movies_response)
+
+SIMILARITY_MODEL_METADATA = "similarity_models.json"
 
 
 def exec_search_similar_service(
@@ -46,4 +50,16 @@ def exec_search_similar_service(
         movie_id=movie_id,
         model_type=model_type,
         similar_movie_list=similar_movie_list
+    )
+
+
+def exec_get_all_similarity_models_service(
+    file_repository: AbstractFileRepository
+) -> AllSimilarityModelsResponse:
+
+    # 類似映画判定モデルのメタデータを取得
+    metadata = file_repository.read_json(key=SIMILARITY_MODEL_METADATA)
+
+    return AllSimilarityModelsResponse(
+        model_types=[model["name"] for model in metadata["models"]]
     )

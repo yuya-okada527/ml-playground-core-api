@@ -7,9 +7,12 @@ from entrypoints.v1.movie.messages.movie_messages import (
     AllSimilarityModelsResponse, SimilarMovieResponse)
 from fastapi import APIRouter, Depends, Path, Query
 from infra.client.solr.solr_api import AbstractSolrClient, get_solr_client
+from infra.repository.file_repository import (AbstractFileRepository,
+                                              get_file_repository)
 from infra.repository.kvs_repository import (AbstractKvsRepository,
                                              get_kvs_repository)
-from service.similarity_service import exec_search_similar_service
+from service.similarity_service import (exec_get_all_similarity_models_service,
+                                        exec_search_similar_service)
 
 # ルーター作成
 router = APIRouter(
@@ -59,5 +62,10 @@ async def search_similar(
     response_model=AllSimilarityModelsResponse,
     response_description="全類似映画判定モデルリスト"
 )
-async def get_all_similarity_models():
-    return None
+async def get_all_similarity_models(
+    file_repository: AbstractFileRepository = Depends(get_file_repository)
+) -> AllSimilarityModelsResponse:
+    # サービス実行
+    return exec_get_all_similarity_models_service(
+        file_repository=file_repository
+    )

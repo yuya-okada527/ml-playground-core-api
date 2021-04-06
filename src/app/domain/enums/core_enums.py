@@ -10,3 +10,11 @@ class LogLevel(Enum):
     """
     INFO = "info"
     DEBUG = "debug"
+
+
+class Environment(Enum):
+    """アプリケーション環境Enumクラス
+    アプリケーションの実行環境を定義するenumクラス
+    """
+    PROD = "prod"
+    LOCAL = "local"
