@@ -18,6 +18,7 @@ SIMILARITY_MODEL_METADATA = "similarity_models.json"
 
 log = create_app_logger(__file__)
 
+
 def fetch_similar_movies(
     movie_ids: List[int],
     solr_client: AbstractSolrClient
