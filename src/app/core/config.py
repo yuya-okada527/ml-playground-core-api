@@ -14,6 +14,9 @@ class CoreSettings(BaseSettings):
     api_log_level: LogLevel = LogLevel.INFO
     core_api_env: Environment = Environment.LOCAL
 
+    class Config:
+        env_file = "env/core.env"
+
 
 class SolrSettings(BaseSettings):
     solr_host: str

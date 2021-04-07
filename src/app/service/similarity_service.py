@@ -11,9 +11,8 @@ from infra.repository.file_repository import AbstractFileRepository
 from infra.repository.kvs_repository import AbstractKvsRepository
 
 from service.logic.similarity_logic import (fetch_similar_movies,
+                                            get_model_types,
                                             map_similar_movies_response)
-
-SIMILARITY_MODEL_METADATA = "similarity_models.json"
 
 
 def exec_search_similar_service(
@@ -58,8 +57,6 @@ def exec_get_all_similarity_models_service(
 ) -> AllSimilarityModelsResponse:
 
     # 類似映画判定モデルのメタデータを取得
-    metadata = file_repository.read_json(key=SIMILARITY_MODEL_METADATA)
+    model_types = get_model_types(file_repository=file_repository)
 
-    return AllSimilarityModelsResponse(
-        model_types=[model["name"] for model in metadata["models"]]
-    )
+    return AllSimilarityModelsResponse(model_types=model_types)

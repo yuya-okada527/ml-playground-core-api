@@ -3,14 +3,20 @@
 類似性データに関するロジックを記述するモジュール
 """
 
+from functools import lru_cache
 from typing import List
 
+from core.logger import create_app_logger
 from domain.enums.similarity_enums import SimilarityModelType
 from entrypoints.v1.movie.messages.movie_messages import (MovieResponse,
                                                           SimilarMovieResponse)
 from infra.client.solr.solr_api import AbstractSolrClient
+from infra.repository.file_repository import AbstractFileRepository
 from service.logic.movie_logic import build_search_by_id_query, map_movie
 
+SIMILARITY_MODEL_METADATA = "similarity_models.json"
+
+log = create_app_logger(__file__)
 
 def fetch_similar_movies(
     movie_ids: List[int],
@@ -66,3 +72,15 @@ def map_similar_movies_response(
         model_type=model_type,
         results=similar_movie_list
     )
+
+
+@lru_cache(maxsize=128)
+def get_model_types(file_repository: AbstractFileRepository) -> List[str]:
+
+    # キャッシュが有効化できている確認用にデバッグログを出しておく
+    log.debug("get_model_types is executed")
+
+    # 類似映画判定モデルのメタデータを取得
+    metadata = file_repository.read_json(key=SIMILARITY_MODEL_METADATA)
+
+    return [model["name"] for model in metadata["models"]]
