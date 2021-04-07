@@ -55,3 +55,8 @@ class LikeSimilarMovie(BaseModel):
 class AllSimilarityModelsResponse(BaseModel):
     """全類似映画判定モデルAPIレスポンス"""
     model_types: List[SimilarityModelType] = Field(..., description="全類似映画判定モデルリスト")
+
+
+class BestSimilarityModelResponse(BaseModel):
+    """ベスト類似映画判定モデルAPIレスポンス"""
+    best_model: SimilarityModelType

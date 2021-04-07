@@ -4,7 +4,8 @@
 """
 from domain.enums.similarity_enums import SimilarityModelType
 from entrypoints.v1.movie.messages.movie_messages import (
-    AllSimilarityModelsResponse, SimilarMovieResponse)
+    AllSimilarityModelsResponse, BestSimilarityModelResponse,
+    SimilarMovieResponse)
 from fastapi import APIRouter, Depends, Path, Query
 from infra.client.solr.solr_api import AbstractSolrClient, get_solr_client
 from infra.repository.file_repository import (AbstractFileRepository,
@@ -12,6 +13,7 @@ from infra.repository.file_repository import (AbstractFileRepository,
 from infra.repository.kvs_repository import (AbstractKvsRepository,
                                              get_kvs_repository)
 from service.similarity_service import (exec_get_all_similarity_models_service,
+                                        exec_get_best_similarity_model_service,
                                         exec_search_similar_service)
 
 # ルーター作成
@@ -67,5 +69,22 @@ async def get_all_similarity_models(
 ) -> AllSimilarityModelsResponse:
     # サービス実行
     return exec_get_all_similarity_models_service(
+        file_repository=file_repository
+    )
+
+
+@router.get(
+    "/model/best",
+    summary="ベスト類似映画判定モデルAPI",
+    description="現時点でベストの類似映画判定モデルを取得するAPI",
+    response_model=BestSimilarityModelResponse,
+    response_description="現時点でのベストモデル"
+)
+async def get_best_similarity_model(
+    file_repository: AbstractFileRepository = Depends(get_file_repository)
+) -> BestSimilarityModelResponse:
+
+    # サービス実行
+    return exec_get_best_similarity_model_service(
         file_repository=file_repository
     )

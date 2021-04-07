@@ -75,8 +75,16 @@ def map_similar_movies_response(
     )
 
 
-@lru_cache(maxsize=128)
+@lru_cache(maxsize=1)
 def get_model_types(file_repository: AbstractFileRepository) -> List[str]:
+    """提供中の類似映画判定モデルを全て取得する
+
+    Args:
+        file_repository (AbstractFileRepository): ファイルリポジトリ
+
+    Returns:
+        List[str]: 類似映画判定モデルリスト
+    """
 
     # キャッシュが有効化できている確認用にデバッグログを出しておく
     log.debug("get_model_types is executed")
@@ -85,3 +93,15 @@ def get_model_types(file_repository: AbstractFileRepository) -> List[str]:
     metadata = file_repository.read_json(key=SIMILARITY_MODEL_METADATA)
 
     return [model["name"] for model in metadata["models"]]
+
+
+@lru_cache(maxsize=1)
+def get_best_model(file_repository: AbstractFileRepository) -> str:
+
+    # キャッシュが有効化できているか確認用にデバッグログを出しておく
+    log.debug("get_best_model is executed")
+
+    # 類似映画判定モデルのメタデータを取得
+    metadata = file_repository.read_json(key=SIMILARITY_MODEL_METADATA)
+
+    return metadata["best_model"]
