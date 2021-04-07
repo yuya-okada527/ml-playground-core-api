@@ -59,4 +59,10 @@ class AllSimilarityModelsResponse(BaseModel):
 
 class BestSimilarityModelResponse(BaseModel):
     """ベスト類似映画判定モデルAPIレスポンス"""
-    best_model: SimilarityModelType
+    best_model: SimilarityModelType = Field(..., description="ベストモデル")
+
+
+class InvalidateCacheResponse(BaseModel):
+    """キャッシュ無効化APIレスポンス"""
+    invalidated: bool = Field(..., description="キャッシュが無効化されたか")
+    target_cache: List[str] = Field(..., description="無効化対象になったキャッシュ名")
