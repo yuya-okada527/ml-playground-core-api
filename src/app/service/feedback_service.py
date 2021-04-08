@@ -4,10 +4,8 @@
 """
 import json
 
-from core.logger import create_feedback_logger
+from core.logger import JSON_LOGGER
 from domain.enums.similarity_enums import SimilarityModelType
-
-feedback_log = create_feedback_logger()
 
 
 def exec_like_similar_movie_service(
@@ -17,13 +15,13 @@ def exec_like_similar_movie_service(
 ) -> None:
 
     # ログ経由で、フィードバックを分析できるようにする
-    feedback_log.info(
+    JSON_LOGGER.info(
         json.dumps({
             "movie_id": movie_id,
             "model_type": model_type.value,
             "like": int(like)
         }),
         extra={
-            "feedback_type": "UserFeedbackLikeSimilarMovie"
+            "type": "UserFeedbackLikeSimilarMovie"
         }
     )

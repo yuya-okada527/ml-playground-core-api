@@ -11,11 +11,10 @@ from fastapi.responses import Response
 from starlette.middleware.base import BaseHTTPMiddleware
 
 from core.config import CoreSettings
-from core.logger import create_access_logger
+from core.logger import ACCESS_LOGGER
 
 core_settings = CoreSettings()
 
-access_log = create_access_logger()
 
 # CORSミドルウェア
 CORS = {
@@ -45,7 +44,7 @@ class AccessLogMiddleware(BaseHTTPMiddleware):
         process_time = time.perf_counter() - start_time
 
         # アクセス情報をログ出力
-        access_log.info(
+        ACCESS_LOGGER.info(
             "",
             extra={
                 "process_time": process_time,

@@ -15,7 +15,7 @@ settings = CoreSettings()
 # ------------------------
 APP_LOG_FORMAT = "Level:%(levelname)s\tType:CoreApiApp\tTime:%(asctime)s\tFile:%(pathname)s\tMessage:%(message)s"
 ACCESS_LOG_FORMAT = "Level:%(levelname)s\tType:CoreApiAccess\tTime:%(asctime)s\tProcessTime:%(process_time)s\tClient:%(client_addr)s\tMethod:%(method)s\tPath:%(path)s\tQuery:%(query)s\tStatusCode:%(status_code)s"
-FEEDBACK_LOG_FORMAT = "Level:%(levelname)s\tType:%(feedback_type)s\tTime:%(asctime)s\tFeedback:%(message)s"
+JSON_LOG_FORMAT = "Level:%(levelname)s\tType:%(type)s\tTime:%(asctime)s\tMessage:%(message)s"
 
 
 def create_app_logger(log_name: str) -> logging.Logger:
@@ -45,15 +45,15 @@ def create_access_logger() -> logging.Logger:
     )
 
 
-def create_feedback_logger() -> logging.Logger:
-    """ユーザフィードバックロガー作成関数
+def create_json_logger() -> logging.Logger:
+    """JSON形式のログメッセージを出力するロガー作成関数
 
     Returns:
         logging.Logger: ロガー
     """
     return _create_logger(
-        log_name="feedback_logger",
-        log_format=FEEDBACK_LOG_FORMAT
+        log_name="json_logger",
+        log_format=JSON_LOG_FORMAT
     )
 
 
@@ -82,4 +82,14 @@ def _create_logger(log_name: str, log_format: str) -> logging.Logger:
     handler.setFormatter(formatter)
     log.addHandler(handler)
 
+    # プロパゲートしない
+    log.propagate = False
+
     return log
+
+
+# ------------------------
+# 名前付きロガー定義
+# ------------------------
+ACCESS_LOGGER = create_access_logger()
+JSON_LOGGER = create_json_logger()

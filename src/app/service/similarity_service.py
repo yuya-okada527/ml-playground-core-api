@@ -2,7 +2,7 @@
 
 類似性データに関するサービス関数を記述するモジュール
 """
-
+from core.logger import JSON_LOGGER
 from domain.enums.similarity_enums import SimilarityModelType
 from entrypoints.v1.movie.messages.movie_messages import (
     AllSimilarityModelsResponse, BestSimilarityModelResponse,
@@ -72,4 +72,8 @@ def exec_get_best_similarity_model_service(
     # 類似映画判定モデルのメタデータを取得
     metadata = get_similarity_model_metadata(file_repository=file_repository)
 
+    # TODO ここで、ベストモデルのログを落とす
+    JSON_LOGGER.info(metadata.best_model.value, extra={
+        "type": "MovieSimModelUsedCount"
+    })
     return BestSimilarityModelResponse(best_model=metadata.best_model)

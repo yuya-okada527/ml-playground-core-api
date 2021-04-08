@@ -4,7 +4,7 @@
 """
 
 from functools import lru_cache
-from typing import Dict, List
+from typing import List
 
 from core.logger import create_app_logger
 from domain.enums.similarity_enums import SimilarityModelType
@@ -75,6 +75,7 @@ def map_similar_movies_response(
         model_type=model_type,
         results=similar_movie_list
     )
+
 
 @lru_cache(maxsize=1)
 def get_similarity_model_metadata(
