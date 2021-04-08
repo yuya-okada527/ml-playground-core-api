@@ -6,8 +6,6 @@ TODO
 - キャッシュ無効化対象を指定できるようにする
 """
 
-from typing import Dict
-
 from entrypoints.v1.movie.messages.movie_messages import \
     InvalidateCacheResponse
 from fastapi import APIRouter
@@ -20,6 +18,7 @@ router = APIRouter(
     # TODO 共通レスポンス
     responses={}
 )
+
 
 @router.post(
     "/invalidate",
