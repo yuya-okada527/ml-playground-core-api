@@ -4,10 +4,12 @@
 """
 
 from functools import lru_cache
-from typing import List
+from typing import Dict, List
 
 from core.logger import create_app_logger
 from domain.enums.similarity_enums import SimilarityModelType
+from domain.models.metadata.similarity_model import \
+    MovieSimilarityModelMetadata
 from entrypoints.v1.movie.messages.movie_messages import (MovieResponse,
                                                           SimilarMovieResponse)
 from infra.client.solr.solr_api import AbstractSolrClient
@@ -74,34 +76,15 @@ def map_similar_movies_response(
         results=similar_movie_list
     )
 
-
 @lru_cache(maxsize=1)
-def get_model_types(file_repository: AbstractFileRepository) -> List[str]:
-    """提供中の類似映画判定モデルを全て取得する
-
-    Args:
-        file_repository (AbstractFileRepository): ファイルリポジトリ
-
-    Returns:
-        List[str]: 類似映画判定モデルリスト
-    """
-
-    # キャッシュが有効化できている確認用にデバッグログを出しておく
-    log.debug("get_model_types is executed")
-
-    # 類似映画判定モデルのメタデータを取得
-    metadata = file_repository.read_json(key=SIMILARITY_MODEL_METADATA)
-
-    return [model["name"] for model in metadata["models"]]
-
-
-@lru_cache(maxsize=1)
-def get_best_model(file_repository: AbstractFileRepository) -> str:
+def get_similarity_model_metadata(
+    file_repository: AbstractFileRepository
+) -> MovieSimilarityModelMetadata:
 
     # キャッシュが有効化できているか確認用にデバッグログを出しておく
-    log.debug("get_best_model is executed")
+    log.debug("get_similarity_model_metadata is executed")
 
     # 類似映画判定モデルのメタデータを取得
     metadata = file_repository.read_json(key=SIMILARITY_MODEL_METADATA)
 
-    return metadata["best_model"]
+    return MovieSimilarityModelMetadata(**metadata)

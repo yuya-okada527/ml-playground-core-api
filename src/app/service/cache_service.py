@@ -2,11 +2,10 @@
 
 from typing import List
 
-from service.logic.similarity_logic import get_best_model, get_model_types
+from service.logic.similarity_logic import get_similarity_model_metadata
 
 CACHED_FUNC = {
-    "get_model_types": get_model_types,
-    "get_best_model": get_best_model
+    "get_similarity_model_metadata": get_similarity_model_metadata
 }
 
 

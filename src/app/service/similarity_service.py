@@ -12,7 +12,7 @@ from infra.repository.file_repository import AbstractFileRepository
 from infra.repository.kvs_repository import AbstractKvsRepository
 
 from service.logic.similarity_logic import (fetch_similar_movies,
-                                            get_best_model, get_model_types,
+                                            get_similarity_model_metadata,
                                             map_similar_movies_response)
 
 
@@ -58,16 +58,18 @@ def exec_get_all_similarity_models_service(
 ) -> AllSimilarityModelsResponse:
 
     # 類似映画判定モデルのメタデータを取得
-    model_types = get_model_types(file_repository=file_repository)
+    metadata = get_similarity_model_metadata(file_repository=file_repository)
 
-    return AllSimilarityModelsResponse(model_types=model_types)
+    return AllSimilarityModelsResponse(
+        model_types=[model.name for model in metadata.models]
+    )
 
 
 def exec_get_best_similarity_model_service(
     file_repository: AbstractFileRepository
 ) -> BestSimilarityModelResponse:
 
-    # ベストモデルを取得
-    best_model = get_best_model(file_repository=file_repository)
+    # 類似映画判定モデルのメタデータを取得
+    metadata = get_similarity_model_metadata(file_repository=file_repository)
 
-    return BestSimilarityModelResponse(best_model=best_model)
+    return BestSimilarityModelResponse(best_model=metadata.best_model)
