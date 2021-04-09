@@ -2,8 +2,6 @@
 
 類似性データに関するサービス関数を記述するモジュール
 """
-import random
-
 from core.logger import JSON_LOGGER
 from domain.enums.similarity_enums import SimilarityModelType
 from entrypoints.v1.movie.messages.movie_messages import (
