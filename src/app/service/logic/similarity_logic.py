@@ -2,7 +2,7 @@
 
 類似性データに関するロジックを記述するモジュール
 """
-
+import random
 from functools import lru_cache
 from typing import List
 
@@ -17,6 +17,9 @@ from infra.repository.file_repository import AbstractFileRepository
 from service.logic.movie_logic import build_search_by_id_query, map_movie
 
 SIMILARITY_MODEL_METADATA = "similarity_models.json"
+
+# 最初は、全部探索に当てる
+EPSILON = 0
 
 log = create_app_logger(__file__)
 
@@ -89,3 +92,13 @@ def get_similarity_model_metadata(
     metadata = file_repository.read_json(key=SIMILARITY_MODEL_METADATA)
 
     return MovieSimilarityModelMetadata(**metadata)
+
+
+def select_best_model(metadata: MovieSimilarityModelMetadata) -> str:
+
+    # e-greedy
+    if random.uniform(0, 1) >= EPSILON:
+        random_num = random.randrange(len(metadata.models))
+        return metadata.models[random_num].name
+
+    return metadata.best_model

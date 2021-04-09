@@ -2,6 +2,8 @@
 
 類似性データに関するサービス関数を記述するモジュール
 """
+import random
+
 from core.logger import JSON_LOGGER
 from domain.enums.similarity_enums import SimilarityModelType
 from entrypoints.v1.movie.messages.movie_messages import (
@@ -13,7 +15,8 @@ from infra.repository.kvs_repository import AbstractKvsRepository
 
 from service.logic.similarity_logic import (fetch_similar_movies,
                                             get_similarity_model_metadata,
-                                            map_similar_movies_response)
+                                            map_similar_movies_response,
+                                            select_best_model)
 
 
 def exec_search_similar_service(
@@ -72,8 +75,11 @@ def exec_get_best_similarity_model_service(
     # 類似映画判定モデルのメタデータを取得
     metadata = get_similarity_model_metadata(file_repository=file_repository)
 
-    # TODO ここで、ベストモデルのログを落とす
-    JSON_LOGGER.info(metadata.best_model.value, extra={
+    # ベストモデルを選択
+    best_model = select_best_model(metadata)
+
+    # ここで、ベストモデルのログを落とす
+    JSON_LOGGER.info(best_model.value, extra={
         "type": "MovieSimModelUsedCount"
     })
-    return BestSimilarityModelResponse(best_model=metadata.best_model)
+    return BestSimilarityModelResponse(best_model=best_model)
