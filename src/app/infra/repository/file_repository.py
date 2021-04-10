@@ -2,13 +2,16 @@
 
 ファイルに対するアクセス機能を提供するモジュール
 """
+import base64
 import json
 import os
 from pathlib import Path
 from typing import Dict, Optional, Protocol
 
-from core.config import CoreSettings
+from core.config import CoreSettings, GCPSettings
 from domain.enums.core_enums import Environment
+from google.cloud import storage
+from google.oauth2 import service_account
 
 RESOURCE_PATH = os.path.join(
     Path(__file__).resolve().parents[3],
@@ -16,6 +19,8 @@ RESOURCE_PATH = os.path.join(
 )
 
 CORE_SETTINGS = CoreSettings()
+
+GCP_SETTINGS = GCPSettings()
 
 
 class AbstractFileRepository(Protocol):
@@ -36,12 +41,29 @@ class LocalFileRepository:
 
 class GCSFileRepository:
 
-    def __init__(self) -> None:
-        pass
+    def __init__(self, settings: GCPSettings = GCP_SETTINGS) -> None:
+        self._project_id = settings.project_id
+        self._credentials_json = json.loads(base64.b64decode(
+            settings.metadata_service_account_credentials
+        ))
+        self._credentials = service_account.Credentials.from_service_account_info(
+            self._credentials_json
+        )
+        self._client = storage.Client(
+            credentials=self._credentials,
+            project=self._project_id
+        )
+        self._bucket = self._client.get_bucket(settings.bucket)
 
     def read_json(self, key: str) -> Dict:
-        # TODO 実装
-        return {}
+
+        # blobを取得
+        blob = self._bucket.blob(key)
+
+        # 文字列でダウンロード
+        content = blob.download_as_text()
+
+        return json.loads(content)
 
 
 # -------------------------------

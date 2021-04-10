@@ -38,3 +38,12 @@ class RedisSettings(BaseSettings):
 
     class Config:
         env_file = "env/redis.env"
+
+
+class GCPSettings(BaseSettings):
+    metadata_service_account_credentials: str
+    project_id: str
+    bucket: str
+
+    class Config:
+        env_file = "env/gcp.env"
