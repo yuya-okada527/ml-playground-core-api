@@ -11,6 +11,7 @@ uvicorn = "^0.13.3"
 requests = "^2.25.1"
 redis = "^3.5.3"
 python-dotenv = "^0.15.0"
+google-cloud-storage = "^1.37.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
