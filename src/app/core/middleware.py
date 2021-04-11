@@ -5,6 +5,7 @@ APIの実行前後で実行される処理を定義する
 import time
 from typing import Awaitable, Callable
 
+from entrypoints.v1.movie.operation_router import HEALTH_CHECK_PATH
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.requests import Request
 from fastapi.responses import Response
@@ -42,6 +43,10 @@ class AccessLogMiddleware(BaseHTTPMiddleware):
         start_time = time.perf_counter()
         response = await call_next(request)
         process_time = time.perf_counter() - start_time
+
+        # ヘルスチェックはログ出力しない
+        if request.url.path == HEALTH_CHECK_PATH:
+            return response
 
         # アクセス情報をログ出力
         ACCESS_LOGGER.info(

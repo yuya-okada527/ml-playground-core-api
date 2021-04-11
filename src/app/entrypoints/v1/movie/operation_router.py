@@ -6,6 +6,8 @@ from typing import Dict
 
 from fastapi import APIRouter
 
+HEALTH_CHECK_PATH = "/"
+
 # ルーター作成
 router = APIRouter(
     # TODO 暫定対応: GKEのIngressがルートでヘルスチェックしてくるため
@@ -17,7 +19,7 @@ router = APIRouter(
 
 
 @router.get(
-    "/",
+    HEALTH_CHECK_PATH,
     summary="ヘルスチェック",
     description="ヘルスチェック機能を提供するAPI."
 )
