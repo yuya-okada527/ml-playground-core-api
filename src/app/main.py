@@ -31,3 +31,5 @@ app.include_router(v1_cache.router)
 # ミドルウェア定義
 app.add_middleware(**CORS)
 app.add_middleware(AccessLogMiddleware)
+
+# TODO メタデータファイルの初期キャッシュ構築は、スタートアップイベントで構築する
