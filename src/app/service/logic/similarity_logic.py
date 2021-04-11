@@ -14,8 +14,7 @@ from domain.models.metadata.similarity_model import \
 from entrypoints.v1.movie.messages.movie_messages import (MovieResponse,
                                                           SimilarMovieResponse)
 from infra.client.solr.solr_api import AbstractSolrClient
-from infra.repository.file_repository import (CORE_SETTINGS,
-                                              AbstractFileRepository)
+from infra.repository.file_repository import AbstractFileRepository
 from service.logic.movie_logic import build_search_by_id_query, map_movie
 
 # -------------------------------
