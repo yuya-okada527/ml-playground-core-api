@@ -14,6 +14,8 @@ class CoreSettings(BaseSettings):
     api_log_level: LogLevel = LogLevel.INFO
     core_api_env: Environment = Environment.LOCAL
     project_id: str
+    # デフォルトでは、ABテストになる
+    epsilon_of_bandit_algorithm: float = 0
 
     class Config:
         env_file = "env/core.env"

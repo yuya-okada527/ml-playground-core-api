@@ -6,6 +6,7 @@ import random
 from functools import lru_cache
 from typing import List
 
+from core.config import CoreSettings
 from core.logger import create_app_logger
 from domain.enums.similarity_enums import SimilarityModelType
 from domain.models.metadata.similarity_model import \
@@ -13,13 +14,20 @@ from domain.models.metadata.similarity_model import \
 from entrypoints.v1.movie.messages.movie_messages import (MovieResponse,
                                                           SimilarMovieResponse)
 from infra.client.solr.solr_api import AbstractSolrClient
-from infra.repository.file_repository import AbstractFileRepository
+from infra.repository.file_repository import (CORE_SETTINGS,
+                                              AbstractFileRepository)
 from service.logic.movie_logic import build_search_by_id_query, map_movie
 
+# -------------------------------
+# 設定
+# -------------------------------
+CORE_SETTINGS = CoreSettings()
+
+# 類似映画判定モデルのメタデータが存在するキー
 SIMILARITY_MODEL_METADATA = "similarity_models.json"
 
 # 最初は、全部探索に当てる
-EPSILON = 0
+EPSILON = CORE_SETTINGS.epsilon_of_bandit_algorithm
 
 log = create_app_logger(__file__)
 
