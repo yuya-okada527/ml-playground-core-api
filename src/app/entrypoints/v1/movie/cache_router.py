@@ -31,7 +31,6 @@ async def invalidate_cache() -> InvalidateCacheResponse:
 
     # サービス実行
     target_cache = exec_invalidate_cache_service()
-    print("Executed")
     return InvalidateCacheResponse(
         invalidated=True,
         target_cache=target_cache
