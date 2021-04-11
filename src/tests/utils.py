@@ -4,6 +4,7 @@ from domain.enums.similarity_enums import SimilarityModelType
 from domain.models.solr.movies import (MovieSolrModel, SolrResponseModel,
                                        SolrResultModel)
 from infra.client.solr.solr_query import SolrQuery
+from infra.repository.file_repository import LocalFileRepository
 
 
 def make_url(path: str, queries: Optional[List[str]] = None):
@@ -55,3 +56,7 @@ class FakeKvsRepository:
         model_type: SimilarityModelType
     ) -> List[int]:
         return [0]
+
+
+async def get_local_file_repository():
+    return LocalFileRepository()
