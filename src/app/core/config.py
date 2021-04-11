@@ -13,6 +13,7 @@ class CoreSettings(BaseSettings):
     fe_domain: str = "http://localhost:3000"
     api_log_level: LogLevel = LogLevel.INFO
     core_api_env: Environment = Environment.LOCAL
+    project_id: str
 
     class Config:
         env_file = "env/core.env"
@@ -42,7 +43,6 @@ class RedisSettings(BaseSettings):
 
 class GCPSettings(BaseSettings):
     core_api_metadata_service_account_credentials: str
-    project_id: str
     core_api_metadata_bucket: str
 
     class Config:
