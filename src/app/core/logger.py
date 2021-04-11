@@ -3,6 +3,7 @@
 アプリケーションのログは必ずここのロガーを通してロギングする必要がある
 """
 import logging
+import sys
 
 from domain.enums.core_enums import LogLevel
 
@@ -76,7 +77,7 @@ def _create_logger(log_name: str, log_format: str) -> logging.Logger:
         log.setLevel(logging.DEBUG)
 
     # 標準出力に出力
-    handler = logging.StreamHandler()
+    handler = logging.StreamHandler(stream=sys.stdout)
     # LTSV形式で出力
     formatter = logging.Formatter(log_format)
     handler.setFormatter(formatter)
