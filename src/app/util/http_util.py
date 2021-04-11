@@ -11,15 +11,19 @@ from functools import wraps
 from typing import Dict, Optional, Union
 
 import requests
+from core.logger import create_app_logger
 from pydantic import BaseModel
 from requests.exceptions import Timeout
 
+# タイムアウト関連定数
 WAIT_TIME_BASE = 5
 TIMEOUT = 3
 
 # ヘッダー関連定数
 CONTENT_TYPE = "Content-Type"
 APPLICATION_JSON = "application/json"
+
+LOG = create_app_logger(__file__)
 
 
 class ServerSideError(Exception):
@@ -38,7 +42,7 @@ def retry_exec(max_retry_num: int):
                 try:
                     return func(*args, **kwargs)
                 except ServerSideError:
-                    # TODO ログ
+                    LOG.warn("サーバーサイドエラーが発生しました。スリープ後、リトライします。")
                     time.sleep(WAIT_TIME_BASE * (i + 1))
         return wrapper
     return _retry_exec
@@ -56,8 +60,6 @@ def call_get_api(
         url += "?" + query_string
     if query:
         query = query.dict()  # type: ignore
-
-    print(query_string)
 
     # API実行
     try:
@@ -94,6 +96,5 @@ def __check_status_code(response) -> None:
     if response.status_code >= 500:
         raise ServerSideError()
     elif response.status_code >= 400:
-        # TODO schema更新エラー
-        print(response.json())
+        LOG.error(f"クライアントサイドエラーが発生しました。 レスポンス: {response.json()}")
         raise ClientSideError()
