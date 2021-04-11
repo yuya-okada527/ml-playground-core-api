@@ -31,7 +31,7 @@ jobs:
       - name: Check mypy
         run: poetry run mypy src/app --ignore-missing-imports --show-column-numbers --check-untyped-defs
       - name: Unit test
-        run: poetry run pytest src/tests -v --cov=app
+        run: poetry run pytest src/tests -v --cov=src/app
         env:
           # ダミー設定
           REDIS_PROTOCOL: xxx
