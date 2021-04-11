@@ -37,3 +37,6 @@ jobs:
           REDIS_PROTOCOL: xxx
           REDIS_HOST: xxx
           REDIS_PORT: 6379
+          CORE_API_METADATA_SERVICE_ACCOUNT_CREDENTIALS: xxx
+          PROJECT_ID: xxx
+          CORE_API_METADATA_BUCKET: xxx

@@ -44,7 +44,7 @@ class GCSFileRepository:
     def __init__(self, settings: GCPSettings = GCP_SETTINGS) -> None:
         self._project_id = settings.project_id
         self._credentials_json = json.loads(base64.b64decode(
-            settings.metadata_service_account_credentials
+            settings.core_api_metadata_service_account_credentials
         ))
         self._credentials = service_account.Credentials.from_service_account_info(
             self._credentials_json
@@ -53,7 +53,7 @@ class GCSFileRepository:
             credentials=self._credentials,
             project=self._project_id
         )
-        self._bucket = self._client.get_bucket(settings.bucket)
+        self._bucket = self._client.get_bucket(settings.core_api_metadata_bucket)
 
     def read_json(self, key: str) -> Dict:
 

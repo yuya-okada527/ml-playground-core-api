@@ -41,9 +41,9 @@ class RedisSettings(BaseSettings):
 
 
 class GCPSettings(BaseSettings):
-    metadata_service_account_credentials: str
+    core_api_metadata_service_account_credentials: str
     project_id: str
-    bucket: str
+    core_api_metadata_bucket: str
 
     class Config:
         env_file = "env/gcp.env"
